@@ -1,17 +1,75 @@
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
 # my-delivery-app
+
+- React + Vite
+
+---
+
+## [2025년 11월 27일]
+
+### 프로젝트 생성
+
+```
+npm create vite@latest my-delivery-app -- --template react
+```
+
+### 개발 환경 설정
+
+```
+cd my-delivery-app
+npm install
+npm install react-router-dom
+npm install axios
+npm install @mui/material @emotion/react @emotion/styled
+npm install @mui/icons-material
+npm install @reduxjs/toolkit react-redux
+npm run dev
+```
+
+### src 폴더에 App.jsx 와 main.jsx만 남기고 모두 정리(삭제)하기
+
+### src > api 폴더 만들기
+
+- api 폴더 안에 **ApiService.js** 파일 만들기
+  ```
+  // Axios 인스턴스 생성
+  import axios from "axios";
+  const ApiService = axios.create({
+  baseURL: "http://localhost:8080",
+  });
+  // 추후에 인터셉터를 여기에 추가
+  export default ApiService;
+  ```
+
+### main.jsx 내용 수정
+
+- React Router 적용을 하기 위해 <App />을 BrowserRouter로 감싸야함
+
+  ```
+  import { StrictMode } from "react";
+  import { createRoot } from "react-dom/client";
+  import App from "./App.jsx";
+  import { BrowserRouter } from "react-router-dom";
+
+  createRoot(document.getElementById("root")).render(
+  <StrictMode>
+      <BrowserRouter>
+      <App />
+      </BrowserRouter>
+  </StrictMode>
+  );
+  ```
+
+### App.jsx 내용 수정
+
+    ```
+    import { useState } from 'react'
+    function App() {
+
+    return (
+        <div>
+        <h1>배달 플랫폼 Reat</h1>
+        </div>
+    )
+    }
+    export default App
+    ```

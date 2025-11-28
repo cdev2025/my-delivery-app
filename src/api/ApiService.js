@@ -1,8 +1,10 @@
 // src>api>ApiService.js : Axios 인스턴스 생성
 import axios from "axios";
+import store from "../store";
 
 const ApiService = axios.create({
   baseURL: "http://localhost:8080",
+  withCredentials: false,
 });
 
 // 추후에 인터셉터를 여기에 추가
@@ -12,6 +14,22 @@ const ApiService = axios.create({
  * - 단, /api/** 요청에만 Authorization 헤더를 붙이도록
  *     (open-api는 인중 없이 사용 가능)
  */
+ApiService.interceptors.request.use(
+  (config) => {
+    const { accessToken } = store.getState().auth;
+
+    // 로그인 이후 /api 요청에만 토큰을 자동 추가
+    if (accessToken && config.url.startsWith("/api/")) {
+      config.headers["authorization-token"] = accessToken;
+    }
+
+    return config;
+  },
+  (error) => {
+    console.error("요청 인터셉터 오류: ", error);
+    return Promise.reject(error);
+  }
+);
 
 /**
  * 응답 인터셉터

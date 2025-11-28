@@ -1,8 +1,14 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import ApiService from "../api/ApiService";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { loginSuccess } from "../store/authSlice";
 
 function LoginPage() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   // 입력 폼 상태
   const [form, setForm] = useState({
     email: "",
@@ -36,8 +42,16 @@ function LoginPage() {
       const accessToken = response.body.access_token;
 
       // Redux 전역 상태 저장
+      dispatch(
+        loginSuccess({
+          accessToken,
+          user: null,
+        })
+      );
 
       // 로그인 성공 메시지 띄우고, 홈으로 이동
+      alert("로그인 성공!");
+      navigate("/"); // 홈으로 이동
     } catch (error) {
       console.error("로그인 실패: ", error);
       alert("로그인 실패");

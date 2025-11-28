@@ -1,8 +1,11 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import ApiService from "../api/ApiService";
+import { useNavigate } from "react-router-dom";
 
 function RegisterPage() {
+  const navigate = useNavigate();
+
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -27,7 +30,7 @@ function RegisterPage() {
       });
 
       alert("회원가입 성공!");
-      window.location.href = "/login";
+      navigate("/login"); // 로그인 페이지로 이동
     } catch (error) {
       console.error(error);
       alert("회원가입 실패");

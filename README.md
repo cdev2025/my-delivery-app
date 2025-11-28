@@ -61,7 +61,7 @@ npm run dev
 
 ### App.jsx 내용 수정
 
-    ```
+```
     import { useState } from 'react'
     function App() {
 
@@ -72,4 +72,4 @@ npm run dev
     )
     }
     export default App
-    ```
+```

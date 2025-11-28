@@ -33,6 +33,9 @@ function LoginPage() {
       }
 
       // accessToken 저장
+      const accessToken = response.body.access_token;
+
+      // Redux 전역 상태 저장
 
       // 로그인 성공 메시지 띄우고, 홈으로 이동
     } catch (error) {

@@ -3,16 +3,22 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import ApiService from "../api/ApiService";
-import { logout } from "../store/authSlice";
+import { logout, setUser } from "../store/authSlice";
 
 function HomePage() {
   const dispatch = useDispatch();
 
   // Redux에서 로그인 상태(accessToken) 읽기
-  const { accessToken, user } = useSelector((state) => state.auth);
+  const {
+    accessToken,
+    refreshToken,
+    accessTokenExpiredAt,
+    refreshTokenExpiredAt,
+    user,
+  } = useSelector((state) => state.auth);
 
   // me API 결과 저장
-  const [meInfo, setMeInfo] = useState(null);
+  const [meInfo, setMeInfo] = useState(user);
 
   // me API 수동 호출
   const fetchMe = async () => {
@@ -20,6 +26,7 @@ function HomePage() {
       const res = await ApiService.get("/api/user/me");
       console.info(res.body);
       setMeInfo(res.body);
+      dispatch(setUser(meInfo));
     } catch (err) {
       console.error(err);
       alert("me API 호출 실패 (로그인이 필요합니다)");

@@ -18,6 +18,7 @@ const initialState = {
   accessToken: storedAuth.accessToken || null,
   refreshToken: storedAuth.refreshToken || null,
   accessTokenExpiredAt: storedAuth.accessTokenExpiredAt || null,
+  refreshTokenExpiredAt: storedAuth.refreshTokenExpiredAt || null,
   user: storedAuth.user || null, // me API 호출 결과 저장
 };
 
@@ -30,6 +31,7 @@ const authSlice = createSlice({
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.accessToken;
       state.accessTokenExpiredAt = action.payload.accessTokenExpiredAt;
+      state.refreshTokenExpiredAt = action.payload.refreshTokenExpiredAt;
       state.user = action.payload.user;
 
       // localStorage에 동기화
@@ -37,6 +39,7 @@ const authSlice = createSlice({
         accessToken: state.accessToken,
         refreshToken: state.refreshToken,
         accessTokenExpiredAt: state.accessTokenExpiredAt,
+        refreshTokenExpiredAt: state.refreshTokenExpiredAt,
         user: state.user,
       };
 
@@ -58,6 +61,7 @@ const authSlice = createSlice({
       state.accessToken = null;
       state.refreshToken = null;
       state.accessTokenExpiredAt = null;
+      state.refreshTokenExpiredAt = null;
       state.user = null;
 
       // localStorage 완전 삭제

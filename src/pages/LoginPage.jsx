@@ -38,13 +38,21 @@ function LoginPage() {
         return;
       }
 
-      // accessToken 저장
-      const accessToken = response.body.access_token;
+      // 서버 응답에서 모든 토큰 정보 추출
+      const {
+        access_token,
+        refresh_token,
+        access_token_expired_at,
+        refresh_token_expired_at,
+      } = response.body;
 
-      // Redux 전역 상태 저장
+      // Redux 전역 상태에 모든 토큰 정보 저장
       dispatch(
         loginSuccess({
-          accessToken,
+          accessToken: access_token,
+          refreshToken: refresh_token,
+          accessTokenExpiredAt: access_token_expired_at,
+          refreshTokenExpiredAt: refresh_token_expired_at,
           user: null,
         })
       );

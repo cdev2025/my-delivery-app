@@ -8,8 +8,10 @@ function HomePage() {
       <Typography variant="h4">Home</Typography>
 
       {/* 비로그인 상태 */}
-      <Box>
-        <Typography>로그인 후 내 정보(me)를 확인할 수 있습니다.</Typography>
+      <Box sx={{ mt: 3 }}>
+        <Typography sx={{ mb: 1 }}>
+          로그인 후 내 정보(me)를 확인할 수 있습니다.
+        </Typography>
       </Box>
 
       <Box sx={{ display: "flex", gap: 4 }}>

@@ -3,9 +3,12 @@ import { useParams } from "react-router-dom";
 import ApiService from "../api/ApiService";
 import { Box, Typography } from "@mui/material";
 import MenuCard from "../components/MenuCard";
+import { useDispatch } from "react-redux";
+import { addItem } from "../store/cartSlice";
 
 function StoreDetailPage() {
   const { storeId } = useParams();
+  const dispatch = useDispatch();
 
   const [menus, setMenus] = useState([]);
 
@@ -32,7 +35,11 @@ function StoreDetailPage() {
       <Typography variant="h4"> 메뉴 목록</Typography>
 
       {menus.map((menu) => (
-        <MenuCard key={menu.id} menu={menu} />
+        <MenuCard
+          key={menu.id}
+          menu={menu}
+          onAdd={(menu) => dispatch(addItem(menu))}
+        />
       ))}
     </Box>
   );

@@ -62,7 +62,7 @@ ApiService.interceptors.response.use(
 
     // 토큰 만료 또는 인증 실패 처리
     if (status === 401 || status === 403) {
-      console.warn("토큰 말료 또는 인증 실패 감지: ", status);
+      console.warn("토큰 만료 또는 인증 실패 감지: ", status);
 
       // 1. Redux + localStorage에서 토큰 완전 삭제
       store.dispatch(logout());
@@ -70,7 +70,7 @@ ApiService.interceptors.response.use(
       // 2. 사용자에게 알림
       alert("로그인 세션이 만됴되었습니다. 다시 로그인해주세요.");
 
-      // 3. 로그이니 페이지로 강제 이동 (무한 루프 방지)
+      // 3. 로그인 페이지로 강제 이동 (무한 루프 방지)
       if (window.location.pathname !== "/login") {
         window.location.href = "/login";
       }

@@ -10,12 +10,14 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearCart, removeItem } from "../store/cartSlice";
+import { clearCart, removeItem, updateQuantity } from "../store/cartSlice";
 import { Add, Remove } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 function CartPage() {
   const dispatch = useDispatch();
   const { items } = useSelector((state) => state.cart);
+  const navigate = useNavigate();
 
   // 총 주문 금액 계산 (수량 x 가격의 합)
   const totalAmount = items.reduce((sum, item) => {
@@ -24,9 +26,34 @@ function CartPage() {
     return sum + amount * quantity;
   }, 0);
 
-  // 수량증가
+  // 수량 증가
+  const handleIncrease = (item) => {
+    dispatch(
+      updateQuantity({
+        id: item.id,
+        quantity: (item.quantity || 1) + 1,
+      })
+    );
+  };
 
   // 수량 감소
+  const handleDecrease = (item) => {
+    const newQuantity = (item.quantity || 1) - 1;
+
+    if (newQuantity <= 0) {
+      //수량이 -이되면 삭제 확인
+      if (window.confirm("장바구니에서 삭제하시겠습니까?")) {
+        dispatch(removeItem(item.id));
+      }
+    } else {
+      dispatch(
+        updateQuantity({
+          id: item.id,
+          quantity: newQuantity,
+        })
+      );
+    }
+  };
 
   // 메뉴 삭제
   const handleRemove = (itemId) => {
@@ -36,6 +63,11 @@ function CartPage() {
   };
 
   // 장바구니 전체 비우기
+  const handleClearCart = (itemId) => {
+    if (window.confirm("장바구니를 모두 비우시겠습니까?")) {
+      dispatch(clearCart());
+    }
+  };
 
   return (
     <Box>
@@ -46,7 +78,7 @@ function CartPage() {
           variant="outlined"
           color="error"
           sx={{ mt: 2 }}
-          onClick={() => dispatch(clearCart())}
+          onClick={() => handleClearCart()}
         >
           장바구니 비우기
         </Button>
@@ -89,13 +121,21 @@ function CartPage() {
 
               {/* 수량 조절 버튼 */}
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <IconButton size="small" color="primary">
+                <IconButton
+                  size="small"
+                  color="primary"
+                  onClick={() => handleDecrease(item)}
+                >
                   <Remove />
                 </IconButton>
 
                 <Typography>{item.quantity || 1}</Typography>
 
-                <IconButton size="small" color="primary">
+                <IconButton
+                  size="small"
+                  color="primary"
+                  onClick={() => handleIncrease(item)}
+                >
                   <Add />
                 </IconButton>
               </Box>
@@ -131,7 +171,8 @@ function CartPage() {
             fullWidth
             size="large"
             sx={{ py: 1.5 }}
-            onClick={() => alert("주문 기능 곧 구현!")}
+            onClick={() => navigate("/order")}
+            disabled={items.length === 0}
           >
             주문하기 ({items.length}개 메뉴)
           </Button>

@@ -9,6 +9,7 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import StoreListPage from "./pages/StoreListPage";
 import CartPage from "./pages/CartPage";
 import StoreDetailPage from "./pages/StoreDetailPage";
+import OrderPage from "./pages/OrderPage";
 
 function App() {
   return (
@@ -52,6 +53,19 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        {/* 주문페이지 */}
+        <Route
+          path="/order"
+          element={
+            <ProtectedRoute>
+              <OrderPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* 진행중인 주문 확인 페이지 */}
+        {/* 주문상세확인페이지 */}
       </Routes>
     </>
   );

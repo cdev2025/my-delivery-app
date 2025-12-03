@@ -1,5 +1,6 @@
 import { Box, Card, CardContent, Chip, Typography } from "@mui/material";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 // 주문 상태별 표시 설정
 const getStatusInfo = (status) => {
@@ -14,6 +15,8 @@ const getStatusInfo = (status) => {
 };
 
 function OrderCard({ orderDetail }) {
+  const navigate = useNavigate();
+
   const order = orderDetail?.user_order_response || {};
   const store = orderDetail?.store_response || {};
   const menus = orderDetail?.store_menu_response_list || [];
@@ -43,7 +46,19 @@ function OrderCard({ orderDetail }) {
   }
 
   return (
-    <Card>
+    <Card
+      sx={{
+        mb: 2,
+        cursor: "pointer",
+        transition: "all 0.2s",
+        "&:hover": {
+          backgroundColor: "#f5f5f5",
+          transform: "translateY(-2px)",
+          boxShadow: 3,
+        },
+      }}
+      onClick={() => navigate(`/orders/${order.id}`)}
+    >
       <CardContent>
         {/* 헤더: 주문번호 + 상태 */}
         <Box
@@ -98,6 +113,25 @@ function OrderCard({ orderDetail }) {
             </Typography>
           </Box>
         )}
+
+        {/* 총 결재 금액 */}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            pt: 1.5,
+            borderTop: "2px solid",
+            borderColor: "primary.light",
+          }}
+        >
+          <Typography variant="body1" fontWeight="bold">
+            총 결제 금액
+          </Typography>
+          <Typography variant="h6" color="primary" fontWeight="bold">
+            ₩ {order.amount.toLocaleString()}
+          </Typography>
+        </Box>
       </CardContent>
     </Card>
   );

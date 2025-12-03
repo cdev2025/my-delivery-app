@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ApiService from "../api/ApiService";
+import { Alert, CircularProgress, Container, Typography } from "@mui/material";
+import OrderCard from "../components/OrderCard";
 
 function OrderListPage() {
   const [orders, setOrders] = useState([]);
@@ -37,7 +39,42 @@ function OrderListPage() {
     fetchOrders();
   }, []);
 
-  return <div>OrderListPage</div>;
+  //----------------------------
+
+  if (loading) {
+    return (
+      <Container maxWidth="md" sx={{ py: 4, textAlign: "center" }}>
+        <CircularProgress />
+        <Typography> 주문 내역을 불러오는 중... </Typography>
+      </Container>
+    );
+  }
+
+  return (
+    <Container maxWidth="md" sx={{ py: 4 }}>
+      <Typography variant="h4" sx={{ mb: 3, fontWeight: "bold" }}>
+        주문 내역
+      </Typography>
+
+      {error && (
+        <Alert severity="error" sx={{ mb: 3 }}>
+          {error}
+        </Alert>
+      )}
+
+      {orders.length === 0 ? (
+        <Box sx={{ textAlign: "center", py: 8 }}>
+          <Typography variant="h6" color="text.secondary">
+            주문 내역이 없습니다
+          </Typography>
+        </Box>
+      ) : (
+        orders.map((order, index) => (
+          <OrderCard key={index} orderDetail={order} />
+        ))
+      )}
+    </Container>
+  );
 }
 
 export default OrderListPage;

@@ -10,6 +10,8 @@ import StoreListPage from "./pages/StoreListPage";
 import CartPage from "./pages/CartPage";
 import StoreDetailPage from "./pages/StoreDetailPage";
 import OrderPage from "./pages/OrderPage";
+import OrderListPage from "./pages/OrderListPage";
+import OrderDetailPage from "./pages/OrderDetailPage";
 
 function App() {
   return (
@@ -64,8 +66,25 @@ function App() {
           }
         />
 
+        {/* 주문 내역 */}
         {/* 진행중인 주문 확인 페이지 */}
+        <Route
+          path="/orders"
+          element={
+            <ProtectedRoute>
+              <OrderListPage />
+            </ProtectedRoute>
+          }
+        />
         {/* 주문상세확인페이지 */}
+        <Route
+          path="/orders/:orderId"
+          element={
+            <ProtectedRoute>
+              <OrderDetailPage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </>
   );

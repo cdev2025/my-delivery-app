@@ -97,6 +97,7 @@ function OrderPage() {
       dispatch(clearCart()); // 장바구니 비우기
       alert("주문이 완료되었습니다.");
       // 주문 상세 페이지로 이동
+      navigate(`/orders/${response.body.id}`);
     } catch (error) {
       console.error("주문 실패:", error);
       setError("주문 처리 중 오류가 발생했습니다. 다시 시도해주세요.");

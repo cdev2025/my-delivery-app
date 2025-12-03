@@ -35,6 +35,14 @@ function Header() {
               스토어
             </Button>
           </Link>
+
+          {/* 주문 내역 */}
+          <Link to="/orders" style={{ textDecoration: "none" }}>
+            <Button variant="text" sx={{ color: "white" }}>
+              주문 내역
+            </Button>
+          </Link>
+
           {/* 장바구니 */}
           <Link to="/cart" style={{ textDecoration: "none" }}>
             <Button variant="text" sx={{ color: "white" }}>
